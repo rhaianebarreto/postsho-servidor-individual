@@ -33,7 +33,9 @@ export async function applyBundle(root, bundle) {
 }
 
 async function boundedJSON(url) {
- const response=await fetch(url,{redirect:'error',signal:AbortSignal.timeout(30000),headers:{Accept:'application/json'}});
+ const headers={Accept:'application/json'};
+ if(new URL(url).hostname==='api.github.com'&&process.env.GH_TOKEN)headers.Authorization='Bearer '+process.env.GH_TOKEN;
+ const response=await fetch(url,{redirect:'error',signal:AbortSignal.timeout(30000),headers});
  if(!response.ok)throw new Error('Não foi possível consultar a versão oficial.');
  let bytes=0;const chunks=[];for await(const chunk of response.body){bytes+=chunk.length;if(bytes>3000000)throw new Error('Pacote excede o limite.');chunks.push(Buffer.from(chunk));}
  return JSON.parse(Buffer.concat(chunks).toString('utf8'));
