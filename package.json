@@ -1,0 +1,14 @@
+{
+  "name": "postsho-servidor-individual",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "node scripts/deploy.mjs",
+    "bundle": "node scripts/build-bundle.mjs",
+    "dev": "wrangler d1 migrations apply DB --local && wrangler dev",
+    "test": "node --test test/*.test.mjs"
+  },
+  "devDependencies": {"wrangler": "4.156.0", "miniflare": "4.20260730.0"},
+  "cloudflare": {"bindings": {"POSTSHO_SETUP": {"description": "Cole o código privado gerado no PostShô em Configurações → Meu servidor. Não é o token do bot."}, "DB": {"description": "Guarda os envios do seu bot até o aparelho confirmar o recebimento."}}}
+}

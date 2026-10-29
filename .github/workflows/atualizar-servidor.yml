@@ -1,0 +1,26 @@
+name: Atualizar servidor PostShô
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: postsho-server-update
+  cancel-in-progress: false
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Obter atualização oficial preservando os dados da conta
+        run: node scripts/update-server.mjs
+      - name: Publicar atualização no repositório da aluna
+        run: |
+          if git diff --cached --quiet; then
+            echo "Servidor já atualizado."
+            exit 0
+          fi
+          git config user.name "PostShô Updates"
+          git config user.email "postsho-updates@users.noreply.github.com"
+          git commit -m "Atualizar servidor PostShô preservando configuração"
+          git push

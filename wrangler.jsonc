@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "postsho-individual",
+  "main": "src/worker.mjs",
+  "compatibility_date": "2026-10-29",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "secrets": {"required": ["POSTSHO_SETUP"]},
+  "vars": {"UPDATE_REPOSITORY": ""},
+  "observability": {"enabled": true, "head_sampling_rate": 0.01},
+  "d1_databases": [{"binding": "DB", "database_name": "postsho-individual", "database_id": "", "migrations_dir": "migrations"}]
+}
